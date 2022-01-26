@@ -6,8 +6,16 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
-      - run: |
-          docker buildx build \
-            --platform linux/amd64,linux/arm64 \
-            --progress plain \
-            --tag mrseccubus/github-pages:latest . 
+      - run:
+          name: Clean up multiarch qemu
+          command: |
+            run --rm --privileged multiarch/qemu-user-static --reset -p yes
+      - run:
+          name: Build for arm64
+          command:  |
+            echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin
+            docker buildx build \
+              --platform linux/arm64 \
+              --progress plain \
+              --push \ 
+              --tag mrseccubus/github-pages:latest . 
