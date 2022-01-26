@@ -15,7 +15,7 @@ jobs:
           no_output_timeout: 30m
           command:  |
             echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin
-            docker buildx build --push --platform linux/arm64 --progress plain --tag mrseccubus/github-pages:latest . 
+            docker buildx build --push --platform linux/arm64 --progress plain --tag mrseccubus/github-pages:latest --tag mrseccubus/github-pages:$(cat version.txt).$CIRCLE_BUILD_NUM . 
   amd64:
     docker:
       - image: alpine
