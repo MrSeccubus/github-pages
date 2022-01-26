@@ -11,11 +11,11 @@ jobs:
           command: |
             docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
       - run:
-          name: Build for arm64
+          name: Build for arm64 and amd64
           no_output_timeout: 30m
           command:  |
             echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin
-            docker buildx build --push --platform linux/arm64 --progress plain --tag mrseccubus/github-pages:latest --tag mrseccubus/github-pages:$(cat version.txt).$CIRCLE_BUILD_NUM . 
+            docker buildx build --push --platform linux/amd64,linux/arm64 --progress plain --tag mrseccubus/github-pages:latest --tag mrseccubus/github-pages:$(cat version.txt).$CIRCLE_BUILD_NUM . 
   arm64:
     docker:
       - image: jdrouet/docker-with-buildx:stable
