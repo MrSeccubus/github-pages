@@ -49,3 +49,14 @@ workflows:
     jobs:
       - arm64
       - amd64
+  monthly:
+    triggers:
+      - schedule:
+          cron: "5 4 1 * *"
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - arm64
+      - amd64
