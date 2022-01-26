@@ -14,8 +14,4 @@ jobs:
           name: Build for arm64
           command:  |
             echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin
-            docker buildx build \
-              --push \ 
-              --platform linux/arm64 \
-              --progress plain \
-              --tag mrseccubus/github-pages:latest . 
+            docker buildx build --push --platform linux/arm64 --progress plain --tag mrseccubus/github-pages:latest . 
