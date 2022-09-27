@@ -6,7 +6,7 @@ LABEL maintainer="fbreedijk@schubergphilis.com"
 ENV TZ=Europe/Amsterdam
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN apt-get update && \
-    apt-get install -y ruby ruby-dev build-essential git locales python3-pip libcurl4 default-jre-headless
+    apt-get install -y ruby ruby-dev build-essential git locales python3-pip libcurl4 default-jre-headless curl
 # Need to be verbose to avoid timeouts
 RUN gem install --no-document jekyll 
 RUN gem install --no-document github-pages 
