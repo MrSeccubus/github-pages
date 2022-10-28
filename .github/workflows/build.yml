@@ -57,6 +57,6 @@ jobs:
         with:
           context: .
           platforms: linux/amd64,linux/arm64
-          push: ${{ github.ref == 'refs/heads/to_github_actions' }}
+          push: ${{ github.event_name == 'pull_request' }}
           tags: ${{ steps.seccubus_github_pages.outputs.tags }}
           labels: ${{ steps.seccubus_github_pages.outputs.labels }}
