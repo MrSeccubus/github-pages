@@ -40,7 +40,7 @@ jobs:
             mrseccubus/github_pages
           # Docker tags based on the following events/attributes
           tags: |
-            type=schedule
+            type=schedule,pattern={{date 'YYYYMMDD'}}
             type=ref,event=branch
             type=ref,event=pr
             type=semver,pattern={{version}}
