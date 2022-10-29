@@ -60,3 +60,4 @@ jobs:
           push: ${{ github.event_name == 'pull_request' }}
           tags: ${{ steps.seccubus_github_pages.outputs.tags }}
           labels: ${{ steps.seccubus_github_pages.outputs.labels }}
+          buildkitd-flags: --debug
