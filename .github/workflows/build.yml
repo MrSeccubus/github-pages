@@ -35,9 +35,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Set versions
         run : |
-          VERSION=$(git describe --tags --abbrev=0)
-          COUNT=$(git log $VERSION..HEAD --oneline|wc -l|sed -e 's# ##g')
-          VERSION=$VERSION.$COUNT
+          VERSION=$(cat version.txt)
           IFS="."
           echo $VERSION | sed "s/^v//" | read -a VERSION_ARRAY
           MAJOR=${VERSION_ARRAY[0]}
