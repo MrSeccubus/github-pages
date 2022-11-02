@@ -33,6 +33,17 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Set versions
+        run : |
+          set -x
+          VERSION=$(cat version.txt | sed "s/^v//" )
+          MAJOR=$(echo $VERSION | cut -d. -f1)
+          MINOR=$(echo $VERSION | cut -d. -f2)
+          REVISION=$(echo $VERSION | cut -d. -f3)
+          echo "MAJOR=${MAJOR}" >> $GITHUB_ENV
+          echo "MINOR=${MINOR}" >> $GITHUB_ENV
+          echo "REVISION=${REVISION}" >> $GITHUB_ENV
+      - run: echo $MAJOR
       - name: Docker meta
         id: seccubus_github_pages # you'll use this in the next step
         uses: docker/metadata-action@v4
@@ -45,10 +56,10 @@ jobs:
             type=schedule,pattern={{date 'YYYYMMDD'}}
             type=ref,event=branch
             type=ref,event=pr
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=semver,pattern={{major}}
             type=sha
+            type=raw,value=${{ env.MAJOR }}
+            type=raw,value=${{ env.MAJOR }}.${{ env.MINOR }}
+            type=raw,value=${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.REVISION }}
             # set latest tag for default branch
             type=raw,value=latest,enable={{is_default_branch}}
           labels: |
