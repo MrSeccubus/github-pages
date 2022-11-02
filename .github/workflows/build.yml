@@ -35,15 +35,14 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Set versions
         run : |
-          VERSION=$(cat version.txt)
+          VERSION=$(cat version.txt | sed "s/^v//" )
           IFS="."
-          echo $VERSION | sed "s/^v//" | read -a VERSION_ARRAY
-          MAJOR=${VERSION_ARRAY[0]}
-          MINOR=${VERSION_ARRAY[0]}.${VERSION_ARRAY[1]}
-          FULL=${VERSION_ARRAY[0]}.${VERSION_ARRAY[1]}.${VERSION_ARRAY[2]}
+          MAJOR=`echo $VERSION | cut -d. -f1`
+          MINOR=`echo $VERSION | cut -d. -f2`
+          REVISION=`echo $VERSION | cut -d. -f3`
           echo "MAJOR=${MAJOR}" >> $GITHUB_ENV
           echo "MINOR=${MINOR}" >> $GITHUB_ENV
-          echo "FULL=${FULL}" >> $GITHUB_ENV
+          echo "REVISION=${REVISION}" >> $GITHUB_ENV
       - run: echo $MAJOR
       - name: Docker meta
         id: seccubus_github_pages # you'll use this in the next step
@@ -59,8 +58,8 @@ jobs:
             type=ref,event=pr
             type=sha
             type=raw,value=${{ env.MAJOR }}
-            type=raw,value=${{ env.MINOR }}
-            type=raw,value=${{ env.FULL }}
+            type=raw,value=${{ env.MAJOR }}.${{ env.MINOR }}
+            type=raw,value=${{ env.MAJOR }}.${{ env.MINOR }}.${{ env.REVISION }}
             # set latest tag for default branch
             type=raw,value=latest,enable={{is_default_branch}}
           labels: |
