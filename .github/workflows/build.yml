@@ -44,6 +44,7 @@ jobs:
           echo "MAJOR=${MAJOR}" >> $GITHUB_ENV
           echo "MINOR=${MINOR}" >> $GITHUB_ENV
           echo "FULL=${FULL}" >> $GITHUB_ENV
+      - run: echo $MAJOR
       - name: Docker meta
         id: seccubus_github_pages # you'll use this in the next step
         uses: docker/metadata-action@v4
