@@ -3,8 +3,11 @@ name: matrix build
 on:
   push:
     - 'main'
-    - 'matrix-build'
-    
+  pull_request:
+    branches:
+      - 'main'
+      - 'not_main'
+
 env:
   REGISTRY_IMAGE: MrSeccubus/github-pages
 
