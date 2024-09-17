@@ -43,6 +43,14 @@ jobs:
           echo "MAJOR=${MAJOR}" >> $GITHUB_ENV
           echo "MINOR=${MINOR}" >> $GITHUB_ENV
           echo "REVISION=${REVISION}" >> $GITHUB_ENV
+      - name: Set single platform
+        run: |
+          echo PLATFORMS="linux/amd64" >> $GITHUB_ENV
+        if: ${{ github.event_name == 'pull_request' }}
+      - name: Set multi platform
+        run: |
+          echo PLATFORMS="linux/amd64,linux/arm64" >> $GITHUB_ENV
+        if: ${{ github.event_name != 'pull_request' }}
       - run: echo $MAJOR
       - name: Docker meta
         id: seccubus_github_pages # you'll use this in the next step
@@ -69,7 +77,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          platforms: linux/amd64,linux/arm64
+          platforms: ${{ env.PLATFORMS }}
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.seccubus_github_pages.outputs.tags }}
           labels: ${{ steps.seccubus_github_pages.outputs.labels }}
