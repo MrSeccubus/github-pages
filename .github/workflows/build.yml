@@ -73,7 +73,7 @@ jobs:
           labels: |
             org.opencontainers.image.url=https://github.com/MrSeccubus/github-pages
             org.opencontainers.image.source=https://github.com/MrSeccubus/github-pages
-      - name: Build and push multi-platform
+      - name: Build and push
         uses: docker/build-push-action@v5
         with:
           context: .
